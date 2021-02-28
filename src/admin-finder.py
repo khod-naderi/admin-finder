@@ -4,6 +4,16 @@ import validators
 from random import randint
 from re import sub
 
+def show(checked_list):
+    count = len(checked_list)
+    print(f"[~~] {count} Results Detected")
+    n = 0
+    if count > 0:
+        for t in checked_list:
+            n+=1
+            print(f"{n} ---> {t}")
+    exit()     
+
 def RandomStr(length):
     """
     get random strings 
@@ -110,15 +120,18 @@ if __name__ == "__main__":
                             break
                         except requests.exceptions.ConnectionError:
                             print("[!] ERROR IN CONNECTION URL....")
+                    except KeyboardInterrupt:
+                        show(checked_list)
                     except:
                         continue
-            count = len(checked_list)
-            print(f"[~~] {count} Results Detected")
-            n = 0
-            if count > 0:
-                for t in checked_list:
-                    n+=1
-                    print(f"{n} ---> {t}")                
+            show(checked_list)
+            # count = len(checked_list)
+            # print(f"[~~] {count} Results Detected")
+            # n = 0
+            # if count > 0:
+            #     for t in checked_list:
+            #         n+=1
+            #         print(f"{n} ---> {t}")                
         elif check_url(var) == False:
             print("[#] Invalid Url! Please check Url.")
 
