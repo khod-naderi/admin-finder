@@ -2,6 +2,7 @@ import requests
 import sys
 import validators
 from random import randint
+from re import sub
 
 def RandomStr(length):
     """
@@ -17,10 +18,11 @@ def Get_404_Original(rootUrl):
     Get page 404 to bypass (<?php http_response_code(404); ?> and ...)
     """
     while(True):
-        start:url = rootUrl + "/" + RandomStr(8)
-        request = requests.get(url)
-        if request.status_code != 404: continue
-        return request.content    
+        # (start)
+        url = rootUrl + "/" + RandomStr(8) # url 404 page 
+        request = requests.get(url) # send request
+        if request.status_code != 404: continue # If this page is not 404 then goto (start) 
+        return sub(url,"",request.text)  # If this page is 404 then return content By deleting the url 404
 
 def check_url(url): 
     check = validators.url(url)
@@ -30,12 +32,10 @@ def check_url(url):
         return(False)
 
 def path_list():
-    list_path = []
-    fresh_list = []
-    with open("path_login.txt") as file_path:
-        list_path = file_path.readlines()
-    for i in list_path:
-        fresh_list.append(i[:-1])
+    fresh_list = list()
+    file_path = open("path_login.txt", "r")
+    for line in file_path: fresh_list.append(line)
+    file_path.close()
     return fresh_list  
 
 def check_content(content):
@@ -93,16 +93,22 @@ if __name__ == "__main__":
         elif check_url(var) == True:
             list_path = path_list()
             for l in list_path:
-                # Merge root site to path
-                url = var +"/"+l 
                 try:
-                    r = requests.get(url=url)
-                    status_code = r.status_code
-                    print(f"[*] {url} : {status_code}")
-                    if (status_code == 200 or status_code == 302 or status_code == 403 or status_code == 401) and (check_content(str(r.content)) == True):
-                        checked_list.append(url)
-                except requests.exceptions.ConnectionError:
-                    print("[!] ERROR IN CONNECTION URL....")
+                    # Merge root site to path
+                    url = var+ "/" +l 
+                    try:
+                        r = requests.get(url=url)
+                        status_code = r.status_code
+                        print(f"[*] {url} : {status_code}")
+                        #print(Get_404_Original(var) + ("-"*30) + "\n" + r.text)
+                        if (status_code == 200 or status_code == 302 or status_code == 403 or status_code == 401) and (check_content(str(r.content)) == True):
+                            checked_list.append(url)
+                        elif (status_code == 404 and (Get_404_Original(var) != sub(url,"",r.text))):
+                            checked_list.append(url)
+                    except requests.exceptions.ConnectionError:
+                        print("[!] ERROR IN CONNECTION URL....")
+                except:
+                    continue
             count = len(checked_list)
             print(f"[~~] {count} Results Detected")
             n = 0
