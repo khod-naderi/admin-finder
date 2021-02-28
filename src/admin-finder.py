@@ -93,22 +93,25 @@ if __name__ == "__main__":
         elif check_url(var) == True:
             list_path = path_list()
             for l in list_path:
-                try:
-                    # Merge root site to path
-                    url = var+ "/" +l 
+                while(True):
                     try:
-                        r = requests.get(url=url)
-                        status_code = r.status_code
-                        print(f"[*] {url} : {status_code}")
-                        #print(Get_404_Original(var) + ("-"*30) + "\n" + r.text)
-                        if (status_code == 200 or status_code == 302 or status_code == 403 or status_code == 401) and (check_content(str(r.content)) == True):
-                            checked_list.append(url)
-                        elif (status_code == 404 and (Get_404_Original(var) != sub(url,"",r.text))):
-                            checked_list.append(url)
-                    except requests.exceptions.ConnectionError:
-                        print("[!] ERROR IN CONNECTION URL....")
-                except:
-                    continue
+                        # Merge root site to path
+                        url = var + "/" + l 
+                        url = url.strip()
+                        try:
+                            r = requests.get(url=url)
+                            status_code = r.status_code
+                            print(f"[*] {url} : {status_code}")
+                            #print(Get_404_Original(var) + ("-"*30) + "\n" + r.text)
+                            if (status_code == 200 or status_code == 302 or status_code == 403 or status_code == 401) and (check_content(str(r.content)) == True):
+                                checked_list.append(url)
+                            elif (status_code == 404 and (Get_404_Original(var) != sub(url,"",r.text))):
+                                checked_list.append(url)
+                            break
+                        except requests.exceptions.ConnectionError:
+                            print("[!] ERROR IN CONNECTION URL....")
+                    except:
+                        continue
             count = len(checked_list)
             print(f"[~~] {count} Results Detected")
             n = 0
