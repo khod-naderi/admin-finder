@@ -6,11 +6,21 @@ from random import randint
 def RandomStr(length):
     """
     get random strings 
-    (length) is length string output
+    (length) is len string output
     """
     output = ""
     for i in range(0,length): output += chr(randint(65,122)) # A = 65, z=122
     return output
+
+def Get_404_Original(rootUrl):
+    """
+    Get page 404 to bypass (<?php http_response_code(404); ?> and ...)
+    """
+    while(True):
+        start:url = rootUrl + "/" + RandomStr(8)
+        request = requests.get(url)
+        if request.status_code != 404: continue
+        return request.content    
 
 def check_url(url): 
     check = validators.url(url)
