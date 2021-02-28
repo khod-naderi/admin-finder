@@ -1,6 +1,16 @@
 import requests
 import sys
 import validators
+from random import randint
+
+def RandomStr(length):
+    """
+    get random strings 
+    (length) is length string output
+    """
+    output = ""
+    for i in range(0,length): output += chr(randint(65,122)) # A = 65, z=122
+    return output
 
 def check_url(url): 
     check = validators.url(url)
