@@ -1,6 +1,6 @@
-## File ~/src/admin-finder.py is Main Project
-## Folder ~/src/admin_finder is Folder Library admin-finder
-Library admin-finder:
+### File ~/src/admin-finder.py is Main Project
+### Folder ~/src/admin_finder is Folder Library admin-finder
+### Library admin-finder:
 - Function "__init__" is init library and is empty
 - Function "show": show output and exit
 - Function "path_list" Get Path at File And yelid
