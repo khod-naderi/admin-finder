@@ -80,6 +80,7 @@ class admin_finder():
             "ID",
             "user",
             "pass",
+            
         ]
         for c in check_list:
             if c.upper() in content or c.lower() in content or c in content:
