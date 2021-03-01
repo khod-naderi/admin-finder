@@ -1,5 +1,6 @@
-admin1.php
+
 admin1.html
+admin1.php
 admin2.php
 admin2.html
 yonetim.php
