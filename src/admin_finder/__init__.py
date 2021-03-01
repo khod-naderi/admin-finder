@@ -6,10 +6,13 @@ import requests
 class admin_finder():
     def __init__(self):
         pass
-    
+
     @staticmethod
     def show(checked_list):
-        count = len(checked_list)
+        """
+        show Results output and end 
+        """
+        count = len(checked_list) # get content len
         print(f"[~~] {count} Results Detected")
         n = 0
         if count > 0:
@@ -19,6 +22,9 @@ class admin_finder():
         exit()     
     
     def path_list(self):
+        """
+        Get Path at File (path_login.txt) and yield
+        """
         # fresh_list = list()
         file_path = open("path_login.txt", "r")
         # for line in file_path: fresh_list.append(line)
@@ -48,6 +54,9 @@ class admin_finder():
             return sub(url,"",request.text)  # If this page is 404 then return content By deleting the url 404
 
     def check_url(self,url): 
+        """
+        Check URL in Valid
+        """
         check = validators.url(url)
         if check == True:
             return(True)    
@@ -57,6 +66,9 @@ class admin_finder():
     
 
     def check_content(self,content):
+        """
+        Check if Content have [check_list]
+        """
         check_list = [
             "username",
             "password",
@@ -73,8 +85,12 @@ class admin_finder():
         for c in check_list:
             if c.upper() in content or c.lower() in content or c in content:
                 return(True) 
+    
     @staticmethod
     def about():
+        """
+        About Page
+        """
         banner = """
         ++++++++++++++++++++++++++++++++++++
         
@@ -90,8 +106,12 @@ class admin_finder():
         
         """
         print(banner)
+
     @staticmethod
     def help():
+        """
+        Help Page
+        """
         banner = """
         ========================================
         
